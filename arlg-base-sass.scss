@@ -1,0 +1,120 @@
+/**********
+IMPORTS
+**********/
+// Imports a set of css3 mixins
+// https://github.com/madr/css3-sass-mixins
+// @import 'css3-sass-mixins';
+
+/**********
+VARS
+**********/
+
+// - Colors
+
+// - Sizes
+// $site-width: 1280;
+// $browser-font-context : 16; // reponsive
+
+/**********
+FUNCTIONS
+**********/
+
+//Converts a px size to % using the context (parent) size
+//@param pixels : Px size of the element
+//@param context : Px size of its parent
+//@return percent value
+@function pp($pixels, $context){
+	@return ($pixels/$context) * 100%;
+}
+
+//Converts a px font-size to em using the browser font context
+//@param : $pixels : size of the font in Px
+//@param : (optional) : parent pixel size (em) : default : $browser-font-context
+@function pe($pixels, $context: $browser-font-context){
+	@return #{$pixels/$context}em
+}
+
+
+/**********
+MIXINS
+**********/
+
+//Add this style to the wrapper of floated elements to reset the flow
+@mixin clearfix{
+	&:after{
+		content: ".";
+		visibility: hidden;
+		display: block;
+		height: 0;
+		clear: both;
+	}
+}
+
+//CSS Style 
+@mixin translate3d($x, $y, $z){
+	-moz-transform: translate3d($x, $y, $z);
+	-o-transform: translate3d($x, $y, $z);
+	-ms-transform: translate3d($x, $y, $z);
+	-webkit-transform: translate3d($x, $y, $z);
+    transform: translate3d($x, $y, $z);
+}
+
+//Opacities with / without IE support
+@mixin opacity ( $value: 0.5 ) {
+  opacity: $value;
+}
+
+@mixin opacityIE ( $value: 0.5 ) {
+  opacity: $value;
+  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=#{$value} * 100);
+  filter: alpha(opacity= $value * 100 );
+  zoom: 1;
+}
+
+//Animation example to add to the dom element
+@mixin animname{
+
+	position:relative;
+
+	&.animin{
+		@include transition(all 400ms);
+		@include opacity(0);
+		bottom : -10px;
+	}
+
+	&.animout{
+		@include transition(all 400ms);
+		@include opacity(1);
+		bottom : 0px;
+	}
+
+}
+
+// Shortcut for text formatting
+// @param : $size : the size in px (converts it to em)
+// @param : $lineheight : line-height in px (converts it to em)
+// @param : $letterspacing : give photoshop value (converts it to em)
+@mixin textStyle($size, $lineheight, $letterspacing){
+	font-size: pe($size);
+	line-height: pe($lineheight, $size);
+	letter-spacing: #{$letterspacing/1000}em;
+}
+
+
+/**********
+FONT-FACES
+**********/
+
+
+/**********
+GLOBAL STYLES
+**********/
+
+//Some resets I like
+p, span, h1, h2, h3, h4, h5, h6{
+	cursor: default;
+}
+
+a{
+	text-decoration: none;
+}
